@@ -1,35 +1,6 @@
 import React from 'react';
 import ProjectCard from './ProjectCard';
-
-const projects = [
-  {
-    title: 'Portfolio Website',
-    description:
-      'A modern personal portfolio built to showcase my skills and projects.',
-    technologies: ['Next.js', 'TypeScript', 'Tailwind CSS'],
-    github: 'https://github.com/',
-    demo: 'https://example.com/',
-    image: '/projects/portfolio.webp',
-  },
-  {
-    title: 'Task Management App',
-    description:
-      'A task management application for creating and organizing daily tasks.',
-    technologies: ['React', 'TypeScript', 'Tailwind CSS'],
-    github: 'https://github.com/',
-    demo: 'https://example.com/',
-    image: '/projects/task.jpeg',
-  },
-  {
-    title: 'Weather Application',
-    description:
-      'A weather application that displays current weather information.',
-    technologies: ['React', 'API', 'JavaScript'],
-    github: 'https://github.com/',
-    demo: 'https://example.com/',
-    image: '/projects/weather.jpeg',
-  },
-];
+import { projects } from '@/data/project';
 
 function Project() {
   return (
@@ -45,12 +16,14 @@ function Project() {
           {projects.map((project) => (
             <ProjectCard
               key={project.title}
+              slug={project.slug}
               title={project.title}
               description={project.description}
               technologies={project.technologies}
               github={project.github}
               demo={project.demo}
               image={project.image}
+              feature={project.features}
             />
           ))}
         </div>

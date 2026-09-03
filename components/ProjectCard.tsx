@@ -1,4 +1,5 @@
 import Image from 'next/image';
+import Link from 'next/link';
 
 type ProjectCardProps = {
   title: string;
@@ -7,6 +8,8 @@ type ProjectCardProps = {
   github: string;
   demo: string;
   image: string;
+  slug: string;
+  feature: string[];
 };
 
 export default function ProjectCard({
@@ -16,9 +19,14 @@ export default function ProjectCard({
   github,
   demo,
   image,
+  slug,
+  feature,
 }: ProjectCardProps) {
   return (
-    <article className="group rounded-2xl border border-white/10 p-6 transition hover:-translate-y-1 hover:border-white/20">
+    <Link
+      href={`/projects/${slug}`}
+      className="group rounded-2xl border border-white/10 p-6 transition hover:-translate-y-1 hover:border-white/20"
+    >
       <div className="relative mb-6 aspect-video overflow-hidden rounded-xl">
         <Image
           src={image}
@@ -61,6 +69,6 @@ export default function ProjectCard({
           Live Demo →
         </a>
       </div>
-    </article>
+    </Link>
   );
 }
