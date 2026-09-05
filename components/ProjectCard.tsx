@@ -20,55 +20,194 @@ export default function ProjectCard({
   demo,
   image,
   slug,
-  feature,
 }: ProjectCardProps) {
   return (
-    <Link
-      href={`/projects/${slug}`}
-      className="group rounded-2xl border border-white/10 p-6 transition hover:-translate-y-1 hover:border-white/20"
+    <article
+      className="
+        group relative flex h-[500px] w-full flex-col
+        overflow-hidden rounded-3xl
+        border border-white/10
+        bg-white/[0.03]
+        backdrop-blur-xl
+        transition-all duration-500
+        hover:-translate-y-2
+        hover:border-blue-500/40
+        hover:bg-white/[0.05]
+        hover:shadow-2xl
+        hover:shadow-blue-500/10
+      "
     >
-      <div className="relative mb-6 aspect-video overflow-hidden rounded-xl">
+      {/* Card glow */}
+      <div
+        className="
+          absolute -right-20 -top-20
+          h-40 w-40 rounded-full
+          bg-blue-500/20 blur-3xl
+          opacity-0 transition-opacity duration-500
+          group-hover:opacity-100
+        "
+      />
+
+      {/* Project Image */}
+      <Link
+        href={`/projects/${slug}`}
+        className="relative block h-[185px] shrink-0 overflow-hidden"
+      >
         <Image
           src={image}
           alt={title}
           fill
-          className="object-cover transition duration-300 group-hover:scale-105"
+          sizes="320px"
+          className="
+            object-cover
+            transition-transform duration-700
+            group-hover:scale-110
+          "
         />
-      </div>
-      <h3 className="text-2xl font-semibold">{title}</h3>
 
-      <p className="mt-4 leading-7 text-gray-400">{description}</p>
+        {/* Image overlay */}
+        <div
+          className="
+            absolute inset-0
+            bg-gradient-to-t from-black/80 via-black/20 to-transparent
+            opacity-70
+            transition-opacity duration-500
+            group-hover:opacity-90
+          "
+        />
 
-      <div className="mt-6 flex flex-wrap gap-2">
-        {technologies.map((technology) => (
+        {/* View project */}
+        <div
+          className="
+            absolute inset-0 flex items-center justify-center
+            opacity-0 transition-all duration-500
+            group-hover:opacity-100
+          "
+        >
           <span
-            key={technology}
-            className="rounded-full bg-white/5 px-3 py-1 text-sm text-gray-300"
+            className="
+              rounded-full border border-white/20
+              bg-black/60 px-5 py-2
+              text-sm font-medium text-white
+              backdrop-blur-md
+              transition-transform duration-500
+              group-hover:scale-100
+              scale-90
+            "
           >
-            {technology}
+            View Project →
           </span>
-        ))}
-      </div>
+        </div>
+      </Link>
 
-      <div className="mt-8 flex gap-4">
-        <a
-          href={github}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="text-sm font-medium hover:underline"
-        >
-          GitHub →
-        </a>
+      {/* Content */}
+      <div className="relative flex flex-1 flex-col p-5">
 
-        <a
-          href={demo}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="text-sm font-medium hover:underline"
+        {/* Title */}
+        <Link href={`/projects/${slug}`}>
+          <h3
+            className="
+              line-clamp-1
+              text-xl font-bold text-white
+              transition-colors duration-300
+              group-hover:text-blue-400
+            "
+          >
+            {title}
+          </h3>
+        </Link>
+
+        {/* Description */}
+        <p
+          className="
+            mt-3 line-clamp-3
+            min-h-[72px]
+            text-sm leading-6 text-gray-400
+          "
         >
-          Live Demo →
-        </a>
+          {description}
+        </p>
+
+        {/* Technologies */}
+        <div className="mt-4 flex min-h-[58px] flex-wrap content-start gap-2 overflow-hidden">
+          {technologies.slice(0, 4).map((technology) => (
+            <span
+              key={technology}
+              className="
+                rounded-full
+                border border-white/10
+                bg-white/[0.04]
+                px-2.5 py-1
+                text-xs text-gray-400
+                transition-all duration-300
+                group-hover:border-blue-500/20
+                group-hover:text-blue-300
+              "
+            >
+              {technology}
+            </span>
+          ))}
+        </div>
+
+        {/* Buttons */}
+        <div className="mt-auto flex gap-2 pt-4">
+
+          <Link
+            href={`/projects/${slug}`}
+            className="
+              flex-1 rounded-xl
+              border border-white/10
+              bg-white/[0.04]
+              px-3 py-2.5
+              text-center text-xs font-medium text-gray-300
+              transition-all duration-300
+              hover:border-blue-500/40
+              hover:bg-blue-500/10
+              hover:text-blue-400
+            "
+          >
+            Details
+          </Link>
+
+          <a
+            href={github}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="
+              flex-1 rounded-xl
+              border border-white/10
+              bg-white/[0.04]
+              px-3 py-2.5
+              text-center text-xs font-medium text-gray-300
+              transition-all duration-300
+              hover:border-blue-500/40
+              hover:bg-blue-500/10
+              hover:text-blue-400
+            "
+          >
+            GitHub
+          </a>
+
+          <a
+            href={demo}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="
+              flex-1 rounded-xl
+              bg-blue-500
+              px-3 py-2.5
+              text-center text-xs font-medium text-white
+              transition-all duration-300
+              hover:bg-blue-400
+              hover:shadow-lg
+              hover:shadow-blue-500/30
+            "
+          >
+            Live Demo
+          </a>
+
+        </div>
       </div>
-    </Link>
+    </article>
   );
 }

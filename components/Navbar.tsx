@@ -1,32 +1,50 @@
 export default function Navbar() {
   return (
-    <nav className="fixed top-0 z-50 w-full border-b border-white/10 bg-black/80 backdrop-blur">
+    <nav className="fixed top-0 z-50 w-full border-b border-white/10 bg-[#0a0a0a]/80 backdrop-blur-xl">
       <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
-        <a href="/" className="text-xl font-bold">
-          VICKY
+        {/* Logo */}
+        <a
+          href="/"
+          className="text-xl font-bold tracking-wide text-white transition-colors duration-300 hover:text-blue-500"
+        >
+          VICKY<span className="text-blue-500">.</span>
         </a>
 
-        <div className="hidden gap-8 md:flex">
-          <a href="#about" className="text-sm text-gray-400 hover:text-white">
+        {/* Navigation */}
+        <div className="hidden items-center gap-8 md:flex">
+          <a
+            href="#about"
+            className="text-sm font-medium text-zinc-400 transition-colors duration-300 hover:text-blue-500"
+          >
             About
           </a>
 
-          <a href="#skills" className="text-sm text-gray-400 hover:text-white">
+          <a
+            href="#skills"
+            className="text-sm font-medium text-zinc-400 transition-colors duration-300 hover:text-blue-500"
+          >
             Skills
           </a>
 
           <a
             href="#projects"
-            className="text-sm text-gray-400 hover:text-white"
+            className="text-sm font-medium text-zinc-400 transition-colors duration-300 hover:text-blue-500"
           >
             Projects
           </a>
-          
-          <a href="#resume" className="text-sm text-gray-400 hover:text-white">
+
+          <a
+            href="#resume"
+            className="text-sm font-medium text-zinc-400 transition-colors duration-300 hover:text-blue-500"
+          >
             Resume
           </a>
 
-          <a href="#contact" className="text-sm text-gray-400 hover:text-white">
+          {/* Contact Button */}
+          <a
+            href="#contact"
+            className="rounded-full border border-blue-500/40 bg-blue-500/10 px-5 py-2 text-sm font-medium text-blue-400 transition-all duration-300 hover:border-blue-500 hover:bg-blue-500 hover:text-white"
+          >
             Contact
           </a>
         </div>
