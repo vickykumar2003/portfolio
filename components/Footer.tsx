@@ -27,7 +27,7 @@ function Footer() {
           {/* Social Links */}
           <div className="flex items-center gap-2">
             <a
-              href="#"
+              href="https://github.com/vickykumar2003"
               target="_blank"
               rel="noopener noreferrer"
               className="
@@ -47,7 +47,7 @@ function Footer() {
             </a>
 
             <a
-              href="#"
+              href="https://www.linkedin.com/in/vicky-kumar-496521291/"
               target="_blank"
               rel="noopener noreferrer"
               className="

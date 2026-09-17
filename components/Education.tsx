@@ -1,24 +1,54 @@
+'use client';
+
+import { education } from '@/data/education';
+import React, { useEffect, useRef } from 'react';
+
 function Education() {
-  const education = [
-    {
-      degree: 'Bachelor of Technology (B.Tech)',
-      field: 'Computer Science & Engineering',
-      institution: 'Your College Name',
-      period: '2021 — 2025',
-      description:
-        'Focused on software development, web technologies, data structures, algorithms, and modern application development.',
-      icon: '🎓',
-    },
-    {
-      degree: 'Higher Secondary (12th)',
-      field: 'Science',
-      institution: 'Your School Name',
-      period: '2020 — 2021',
-      description:
-        'Completed higher secondary education with a focus on Mathematics, Physics, and Computer Science.',
-      icon: '📚',
-    },
-  ];
+  const educationRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const handleWheel = (e: WheelEvent) => {
+      const container = educationRef.current;
+
+      if (!container) return;
+
+      // Only handle wheel when mouse is inside education slider
+      if (!container.contains(e.target as Node)) return;
+
+      const maxScroll = container.scrollWidth - container.clientWidth;
+
+      // No horizontal scrolling available
+      if (maxScroll <= 0) return;
+
+      const currentScroll = container.scrollLeft;
+
+      const scrollingRight = e.deltaY > 0;
+      const scrollingLeft = e.deltaY < 0;
+
+      const canScrollRight = currentScroll < maxScroll;
+      const canScrollLeft = currentScroll > 0;
+
+      // Convert vertical mouse wheel to horizontal scroll
+      if (
+        (scrollingRight && canScrollRight) ||
+        (scrollingLeft && canScrollLeft)
+      ) {
+        e.preventDefault();
+
+        container.scrollLeft += e.deltaY * 1.5;
+      }
+
+      // At beginning/end, normal page scrolling continues
+    };
+
+    window.addEventListener('wheel', handleWheel, {
+      passive: false,
+    });
+
+    return () => {
+      window.removeEventListener('wheel', handleWheel);
+    };
+  }, []);
 
   return (
     <section id="education" className="relative overflow-hidden px-6 py-20">
@@ -44,7 +74,10 @@ function Education() {
 
         {/* Horizontal Scroll */}
         <div className="relative">
-          <div className="flex gap-6 overflow-x-auto pb-6 scrollbar-hide snap-x snap-mandatory">
+          <div
+            ref={educationRef}
+            className="flex gap-6 overflow-x-auto overflow-y-hidden pb-6 scrollbar-hide"
+          >
             {education.map((item) => (
               <article
                 key={`${item.institution}-${item.degree}`}
@@ -52,7 +85,7 @@ function Education() {
                   group relative
                   flex min-h-[320px]
                   w-[380px] min-w-[380px]
-                  shrink-0 snap-start
+                  shrink-0
                   flex-col
                   overflow-hidden rounded-3xl
                   border border-white/10
@@ -172,7 +205,7 @@ function Education() {
           {/* Scroll hint */}
           <div className="mt-2 flex items-center justify-center gap-2 text-xs text-gray-600">
             <span>Scroll to explore education</span>
-            <span className="text-blue-400">→</span>
+            <span className="animate-pulse text-blue-400">→</span>
           </div>
         </div>
       </div>

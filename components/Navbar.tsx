@@ -34,7 +34,9 @@ export default function Navbar() {
           </a>
 
           <a
-            href="#resume"
+            href="/Vicky_Kumar_Resume.pdf"
+            target="_blank"
+            rel="noopener noreferrer"
             className="text-sm font-medium text-zinc-400 transition-colors duration-300 hover:text-blue-500"
           >
             Resume

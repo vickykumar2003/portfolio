@@ -9,6 +9,19 @@ import Project from '@/components/Project';
 import Skills from '@/components/Skills';
 
 export default function Home() {
+  const workingOn = [
+    'React',
+    'Next.js',
+    'TypeScript',
+    'Tailwind CSS',
+    'Node.js',
+    'Express.js',
+    'MongoDB',
+    'PostgreSQL',
+    'REST APIs',
+    'Git',
+    'Docker',
+  ];
   return (
     <main className="min-h-screen bg-black text-white">
       <Navbar />
@@ -42,9 +55,11 @@ export default function Home() {
 
             {/* Description */}
             <p className="mx-auto mt-6 max-w-2xl text-lg leading-8 text-gray-400 lg:mx-0">
-              I'm a passionate frontend developer focused on creating
-              responsive, user-friendly and visually engaging web applications
-              with modern technologies.
+              I'm a passionate full-stack developer focused on building modern,
+              scalable, and user-friendly web applications. I work across both
+              frontend and backend technologies to create responsive
+              experiences, robust APIs, and reliable solutions using modern web
+              technologies.
             </p>
 
             {/* Buttons */}
@@ -71,16 +86,14 @@ export default function Home() {
               </p>
 
               <div className="flex flex-wrap justify-center gap-3 lg:justify-start">
-                {['React', 'Next.js', 'TypeScript', 'Tailwind CSS'].map(
-                  (tech) => (
-                    <span
-                      key={tech}
-                      className="rounded-full border border-white/10 bg-white/[0.03] px-3 py-1.5 text-xs text-gray-400 transition-colors hover:border-blue-500/30 hover:text-blue-400"
-                    >
-                      {tech}
-                    </span>
-                  ),
-                )}
+                {workingOn.map((tech) => (
+                  <span
+                    key={tech}
+                    className="rounded-full border border-white/10 bg-white/[0.03] px-3 py-1.5 text-xs text-gray-400 transition-colors hover:border-blue-500/30 hover:text-blue-400"
+                  >
+                    {tech}
+                  </span>
+                ))}
               </div>
             </div>
           </div>
@@ -112,12 +125,12 @@ export default function Home() {
 
                 <p className="pl-5">
                   <span className="text-gray-500">name:</span>{' '}
-                  <span className="text-green-400">'Vicky'</span>,
+                  <span className="text-green-400">'Vicky Kumar'</span>,
                 </p>
 
                 <p className="pl-5">
                   <span className="text-gray-500">role:</span>{' '}
-                  <span className="text-green-400">'Frontend Developer'</span>,
+                  <span className="text-green-400">'FullStack Developer'</span>,
                 </p>
 
                 <p className="pl-5">
@@ -130,11 +143,13 @@ export default function Home() {
                   <span className="text-gray-500">focus:</span> [
                 </p>
 
-                <p className="pl-10 text-cyan-400">'UI/UX',</p>
+                <p className="pl-10 text-cyan-400">'Frontend',</p>
 
-                <p className="pl-10 text-cyan-400">'Performance',</p>
+                <p className="pl-10 text-cyan-400">'Backend',</p>
 
-                <p className="pl-10 text-cyan-400">'Clean Code',</p>
+                <p className="pl-10 text-cyan-400">'APIs & Databases',</p>
+
+                <p className="pl-10 text-cyan-400">'Scalable Solutions',</p>
 
                 <p className="pl-5">]</p>
 
@@ -148,10 +163,10 @@ export default function Home() {
             </div>
 
             {/* Floating badge */}
-            <div className="absolute -bottom-6 -left-8 rounded-2xl border border-white/10 bg-[#111]/90 px-5 py-4 shadow-xl backdrop-blur-xl">
-              <p className="text-xs text-gray-500">Building</p>
+            <div className="absolute -bottom-6 -right-8 rounded-2xl border border-white/10 bg-[#111]/90 px-5 py-4 shadow-xl backdrop-blur-xl">
+              <p className="text-xs text-gray-500">Specializing in</p>
               <p className="mt-1 font-semibold text-white">
-                Digital Experiences ✨
+                Full-Stack Development ⚡
               </p>
             </div>
           </div>

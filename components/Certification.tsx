@@ -1,22 +1,54 @@
+'use client';
+
+import { certifications } from '@/data/certification';
+import React, { useEffect, useRef } from 'react';
+
 function Certification() {
-  const certifications = [
-    {
-      title: 'React.js Certification',
-      issuer: 'Your Certification Platform',
-      date: '2025',
-      description:
-        'Completed certification covering React fundamentals, components, hooks, state management, and modern frontend development.',
-      link: '#',
-    },
-    {
-      title: 'JavaScript Certification',
-      issuer: 'Your Certification Platform',
-      date: '2025',
-      description:
-        'Demonstrated knowledge of JavaScript fundamentals, ES6+, asynchronous programming, and DOM manipulation.',
-      link: '#',
-    },
-  ];
+  const certificationRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const handleWheel = (e: WheelEvent) => {
+      const container = certificationRef.current;
+
+      if (!container) return;
+
+      // Only handle wheel when mouse is inside certification slider
+      if (!container.contains(e.target as Node)) return;
+
+      const maxScroll = container.scrollWidth - container.clientWidth;
+
+      // No horizontal scrolling available
+      if (maxScroll <= 0) return;
+
+      const currentScroll = container.scrollLeft;
+
+      const scrollingRight = e.deltaY > 0;
+      const scrollingLeft = e.deltaY < 0;
+
+      const canScrollRight = currentScroll < maxScroll;
+      const canScrollLeft = currentScroll > 0;
+
+      // Convert vertical mouse wheel to horizontal scroll
+      if (
+        (scrollingRight && canScrollRight) ||
+        (scrollingLeft && canScrollLeft)
+      ) {
+        e.preventDefault();
+
+        container.scrollLeft += e.deltaY * 1.5;
+      }
+
+      // At beginning/end, normal page scrolling continues
+    };
+
+    window.addEventListener('wheel', handleWheel, {
+      passive: false,
+    });
+
+    return () => {
+      window.removeEventListener('wheel', handleWheel);
+    };
+  }, []);
 
   return (
     <section
@@ -45,7 +77,10 @@ function Certification() {
 
         {/* Horizontal Scroll */}
         <div className="relative">
-          <div className="flex gap-6 overflow-x-auto pb-6 scrollbar-hide snap-x snap-mandatory">
+          <div
+            ref={certificationRef}
+            className="flex gap-6 overflow-x-auto overflow-y-hidden pb-6 scrollbar-hide"
+          >
             {certifications.map((cert) => (
               <article
                 key={`${cert.title}-${cert.issuer}`}
@@ -53,7 +88,7 @@ function Certification() {
                   group relative
                   flex min-h-[330px]
                   w-[380px] min-w-[380px]
-                  shrink-0 snap-start
+                  shrink-0
                   flex-col
                   overflow-hidden rounded-3xl
                   border border-white/10
@@ -181,7 +216,7 @@ function Certification() {
           {/* Scroll hint */}
           <div className="mt-2 flex items-center justify-center gap-2 text-xs text-gray-600">
             <span>Scroll to explore certifications</span>
-            <span className="text-blue-400">→</span>
+            <span className="animate-pulse text-blue-400">→</span>
           </div>
         </div>
       </div>

@@ -18,8 +18,9 @@ export default function About() {
           </h2>
 
           <p className="mt-4 max-w-2xl text-lg leading-8 text-gray-400">
-            I enjoy turning ideas into clean, useful and engaging digital
-            experiences.
+            I enjoy turning ideas into scalable, user-friendly web applications
+            with clean code, modern technologies, and seamless
+            frontend-to-backend experiences.
           </p>
         </div>
 
@@ -34,10 +35,11 @@ export default function About() {
             <div className="relative overflow-hidden rounded-3xl border border-white/10 bg-white/[0.03] p-2 shadow-2xl shadow-blue-500/10 backdrop-blur-xl transition-all duration-500 group-hover:-translate-y-2 group-hover:border-blue-500/30">
               <div className="relative h-[420px] w-full overflow-hidden rounded-2xl">
                 <Image
-                  src="https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?auto=format&fit=crop&w=800&q=80"
-                  alt="Vicky - Frontend Developer"
+                  src="/vicky.jpg"
+                  alt="Vicky"
                   fill
-                  className="rounded-2xl object-cover grayscale transition-all duration-700 group-hover:scale-105 group-hover:grayscale-0"
+                  sizes="(max-width: 768px) 100vw, 50vw"
+                  className="object-cover"
                 />
               </div>
 

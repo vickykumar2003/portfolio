@@ -1,3 +1,5 @@
+'use client';
+
 function ContactMe() {
   return (
     <section id="contact" className="relative overflow-hidden px-6 py-20">
@@ -183,6 +185,9 @@ function ContactMe() {
 
           {/* Contact Form */}
           <form
+            onSubmit={(e) =>{ e.preventDefault();
+              console.log("FORM SUBMITTED");
+            }}
             className="
               group relative overflow-hidden rounded-3xl
               border border-white/10

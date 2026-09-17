@@ -1,8 +1,57 @@
-import React from 'react';
+'use client';
+
+import React, { useEffect, useRef } from 'react';
 import ProjectCard from './ProjectCard';
 import { projects } from '@/data/project';
 
 function Project() {
+  const projectsRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const handleWheel = (e: WheelEvent) => {
+      const container = projectsRef.current;
+
+      if (!container) return;
+
+      // Only handle wheel inside project slider
+      if (!container.contains(e.target as Node)) return;
+
+      const maxScroll = container.scrollWidth - container.clientWidth;
+
+      // No horizontal overflow
+      if (maxScroll <= 0) return;
+
+      const currentScroll = container.scrollLeft;
+
+      const scrollingRight = e.deltaY > 0;
+      const scrollingLeft = e.deltaY < 0;
+
+      const canScrollRight = currentScroll < maxScroll;
+      const canScrollLeft = currentScroll > 0;
+
+      // Convert vertical wheel → horizontal scroll
+      if (
+        (scrollingRight && canScrollRight) ||
+        (scrollingLeft && canScrollLeft)
+      ) {
+        e.preventDefault();
+
+        container.scrollLeft += e.deltaY * 1.5;
+      }
+
+      // At start/end:
+      // don't preventDefault → normal page scrolling continues
+    };
+
+    window.addEventListener('wheel', handleWheel, {
+      passive: false,
+    });
+
+    return () => {
+      window.removeEventListener('wheel', handleWheel);
+    };
+  }, []);
+
   return (
     <section id="projects" className="relative overflow-hidden px-6 py-24">
       {/* Background glow */}
@@ -27,11 +76,14 @@ function Project() {
 
         {/* Horizontal Projects */}
         <div className="relative">
-          <div className="flex gap-6 overflow-x-auto pb-6 scrollbar-hide snap-x snap-mandatory">
+          <div
+            ref={projectsRef}
+            className="flex gap-6 overflow-x-auto overflow-y-hidden pb-6 scrollbar-hide"
+          >
             {projects.map((project) => (
               <div
                 key={project.title}
-                className="w-[320px] min-w-[320px] shrink-0 snap-start"
+                className="w-[320px] min-w-[320px] shrink-0"
               >
                 <ProjectCard
                   slug={project.slug}
@@ -50,7 +102,7 @@ function Project() {
           {/* Scroll hint */}
           <div className="mt-2 flex items-center justify-center gap-2 text-xs text-gray-600">
             <span>Scroll to explore projects</span>
-            <span className="text-blue-400">→</span>
+            <span className="animate-pulse text-blue-400">→</span>
           </div>
         </div>
       </div>
