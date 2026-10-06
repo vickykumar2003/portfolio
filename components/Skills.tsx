@@ -1,131 +1,79 @@
-'use client';
+import Image from 'next/image';
+import { skillGroups } from '@/data/skills';
+import SectionHeading, { Accent } from './SectionHeading';
 
-import { skills } from '@/data/skills';
-import { useEffect, useRef } from 'react';
+// Bento layout: wider cards for the larger groups
+const spans = ['lg:col-span-2', '', '', 'lg:col-span-2', '', 'lg:col-span-2'];
 
 export default function Skills() {
-  const skillsRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const handleWheel = (e: WheelEvent) => {
-      const container = skillsRef.current;
-
-      if (!container) return;
-
-      // Only handle wheel when cursor is inside skills slider
-      if (!container.contains(e.target as Node)) return;
-
-      const maxScroll = container.scrollWidth - container.clientWidth;
-
-      // No horizontal overflow
-      if (maxScroll <= 0) return;
-
-      const currentScroll = container.scrollLeft;
-
-      const scrollingRight = e.deltaY > 0;
-      const scrollingLeft = e.deltaY < 0;
-
-      const canScrollRight = currentScroll < maxScroll;
-      const canScrollLeft = currentScroll > 0;
-
-      // Scroll horizontally if possible
-      if (
-        (scrollingRight && canScrollRight) ||
-        (scrollingLeft && canScrollLeft)
-      ) {
-        e.preventDefault();
-
-        container.scrollLeft += e.deltaY * 1.5;
-      }
-
-      // If we're at the beginning/end,
-      // don't preventDefault → page scroll continues normally.
-    };
-
-    // Native listener with passive:false
-    window.addEventListener('wheel', handleWheel, {
-      passive: false,
-    });
-
-    return () => {
-      window.removeEventListener('wheel', handleWheel);
-    };
-  }, []);
-
   return (
-    <section id="skills" className="relative px-6 py-24">
-      {/* Background glow */}
-      <div className="pointer-events-none absolute left-0 top-1/2 -z-10 h-96 w-96 rounded-full bg-blue-500/10 blur-[140px]" />
-
+    <section id="skills" className="relative px-5 py-28 sm:px-6 sm:py-36">
       <div className="mx-auto max-w-6xl">
-        {/* Heading */}
-        <div className="mb-12">
-          <p className="mb-2 text-sm font-semibold tracking-[0.2em] text-blue-400">
-            SKILLS
-          </p>
+        <SectionHeading
+          index="03"
+          label="Skills"
+          title={
+            <>
+              The tools I <Accent>build with.</Accent>
+            </>
+          }
+          intro="Technologies and tools I use to turn ideas into modern, responsive and reliable products — grouped by where they sit in the stack."
+        />
 
-          <h2 className="text-3xl font-bold tracking-tight sm:text-4xl">
-            Technologies I work with
-          </h2>
+        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          {skillGroups.map((group, index) => (
+            <div
+              key={group.title}
+              data-reveal
+              style={{ transitionDelay: `${(index % 3) * 80}ms` }}
+              className={spans[index] ?? ''}
+            >
+              <article data-spotlight className="card group/card flex h-full flex-col p-6 sm:p-7">
+                <header className="flex items-baseline justify-between gap-4">
+                  <div>
+                    <h3 className="text-xl font-medium tracking-tight">{group.title}</h3>
+                    <p className="mt-1 text-sm text-muted">{group.blurb}</p>
+                  </div>
+                  <span className="font-mono text-xs text-faint">
+                    {String(group.skills.length).padStart(2, '0')}
+                  </span>
+                </header>
 
-          <p className="mt-4 max-w-2xl text-lg leading-8 text-gray-400">
-            Technologies and tools I use to turn ideas into modern, responsive
-            and engaging digital experiences.
-          </p>
+                <ul className="mt-7 flex flex-wrap gap-2">
+                  {group.skills.map((skill) => (
+                    <li
+                      key={skill.name}
+                      className="flex items-center gap-2.5 rounded-xl border border-line bg-ink/60 py-2 pl-2 pr-3.5 text-sm text-fg/90 transition-[transform,border-color,background-color] duration-500 ease-out-expo hover:-translate-y-1 hover:border-accent/40 hover:bg-accent-soft"
+                    >
+                      <span className="grid h-7 w-7 place-items-center rounded-lg bg-white/4">
+                        {skill.logo ? (
+                          <Image
+                            src={skill.logo}
+                            alt=""
+                            width={18}
+                            height={18}
+                            unoptimized
+                            loading="lazy"
+                            className={`h-[18px] w-[18px] object-contain ${skill.invert ? 'invert' : ''}`}
+                          />
+                        ) : (
+                          <span aria-hidden="true" className="font-display text-base italic text-accent">
+                            {skill.name.charAt(0)}
+                          </span>
+                        )}
+                      </span>
+                      {skill.name}
+                    </li>
+                  ))}
+                </ul>
+              </article>
+            </div>
+          ))}
         </div>
 
-        {/* Horizontal Skills Scroll */}
-        <div className="relative">
-          <div
-            ref={skillsRef}
-            className="flex gap-5 overflow-x-auto overflow-y-hidden pb-6 scrollbar-hide"
-          >
-            {skills.map((skill, index) => (
-              <div
-                key={skill.name}
-                className="skill-card group relative min-w-[190px] shrink-0 overflow-hidden rounded-2xl border border-white/10 bg-white/[0.03] p-6 backdrop-blur-xl transition-all duration-500 hover:-translate-y-2 hover:border-blue-500/40 hover:bg-blue-500/[0.06] hover:shadow-xl hover:shadow-blue-500/10"
-                style={{
-                  animationDelay: `${index * 100}ms`,
-                }}
-              >
-                {/* Hover glow */}
-                <div className="absolute -right-10 -top-10 h-24 w-24 rounded-full bg-blue-500/20 opacity-0 blur-2xl transition-opacity duration-500 group-hover:opacity-100" />
-
-                {/* Logo */}
-                <div className="relative flex h-20 w-20 items-center justify-center rounded-2xl border border-white/10 bg-black/40 p-4 transition-all duration-500 group-hover:scale-110 group-hover:border-blue-500/30">
-                  <img
-                    src={skill.logo}
-                    alt={`${skill.name} logo`}
-                    className={`h-full w-full object-contain transition-transform duration-500 group-hover:rotate-3 ${
-                      skill.name === 'Express.js' ||skill.name === 'GitHub' ? 'invert' : ''
-                    }`}
-                  />
-                </div>
-
-                {/* Name */}
-                <h3 className="relative mt-6 whitespace-nowrap text-base font-semibold text-gray-200 transition-colors duration-300 group-hover:text-white">
-                  {skill.name}
-                </h3>
-
-                {/* Accent */}
-                <div className="mt-4 h-1 w-8 rounded-full bg-blue-500 transition-all duration-500 group-hover:w-14 group-hover:bg-cyan-400" />
-              </div>
-            ))}
-          </div>
-
-          {/* Scroll hint */}
-          <div className="mt-3 flex items-center justify-center gap-2 text-xs text-gray-600">
-            <span>Scroll to explore skills</span>
-            <span className="animate-pulse text-blue-400">→</span>
-          </div>
-        </div>
-
-        {/* Bottom statement */}
-        <div className="mt-10 text-center">
-          <p className="text-sm text-gray-600">
-            Always learning. Always building. Always improving. 🚀
-          </p>
-        </div>
+        <p data-reveal className="mt-10 text-center font-display text-xl italic text-muted">
+          Always learning. Always building. Always improving.
+        </p>
       </div>
     </section>
   );

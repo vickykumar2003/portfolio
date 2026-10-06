@@ -1,111 +1,78 @@
-function Footer() {
+import Link from 'next/link';
+import { navLinks, profile } from '@/data/profile';
+
+export default function Footer() {
   return (
-    <footer className="relative overflow-hidden border-t border-white/10 bg-[#050505]">
-      {/* Background glow */}
-      <div className="pointer-events-none absolute left-1/3 top-0 h-64 w-64 rounded-full bg-blue-500/10 blur-[120px]" />
-
-      <div className="relative mx-auto max-w-6xl px-6 py-10">
-        {/* Main Footer */}
-        <div className="flex flex-col items-center justify-between gap-6 md:flex-row">
-          {/* Name & Tagline */}
-          <div className="text-center md:text-left">
-            <a
-              href="#"
-              className="group inline-flex items-center text-xl font-bold tracking-wide text-white"
-            >
-              VICKY
-              <span className="text-blue-500 transition-colors duration-300 group-hover:text-cyan-400">
-                .
-              </span>
-            </a>
-
-            <p className="mt-2 text-sm text-gray-500">
-              Frontend Developer • Building modern web experiences
+    <footer className="relative overflow-hidden border-t border-line px-5 pt-16 sm:px-6">
+      <div className="mx-auto max-w-6xl">
+        <div className="grid gap-10 sm:grid-cols-[1.5fr_1fr_1fr]">
+          <div>
+            <p className="text-lg font-medium tracking-tight">
+              {profile.name}
+              <span className="text-accent">.</span>
+            </p>
+            <p className="mt-2 max-w-xs text-sm leading-6 text-muted">
+              {profile.role} · Building modern web experiences from {profile.location}.
             </p>
           </div>
 
-          {/* Social Links */}
-          <div className="flex items-center gap-2">
-            <a
-              href="https://github.com/vickykumar2003"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="
-                rounded-xl
-                border border-white/10
-                bg-white/[0.03]
-                px-4 py-2
-                text-sm text-gray-400
-                transition-all duration-300
-                hover:-translate-y-1
-                hover:border-blue-500/30
-                hover:bg-blue-500/10
-                hover:text-blue-400
-              "
-            >
-              GitHub ↗
-            </a>
+          <nav aria-label="Footer">
+            <p className="eyebrow text-[0.68rem]">Navigate</p>
+            <ul className="mt-4 grid grid-cols-2 gap-x-4 gap-y-2 text-sm">
+              {navLinks.map(({ id, label }) => (
+                <li key={id}>
+                  <Link href={`/#${id}`} className="link-draw text-muted transition-colors hover:text-fg">
+                    {label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </nav>
 
-            <a
-              href="https://www.linkedin.com/in/vicky-kumar-496521291/"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="
-                rounded-xl
-                border border-white/10
-                bg-white/[0.03]
-                px-4 py-2
-                text-sm text-gray-400
-                transition-all duration-300
-                hover:-translate-y-1
-                hover:border-blue-500/30
-                hover:bg-blue-500/10
-                hover:text-blue-400
-              "
-            >
-              LinkedIn ↗
-            </a>
-
-            <a
-              href="#contact"
-              className="
-                rounded-xl
-                bg-blue-500
-                px-4 py-2
-                text-sm font-medium text-white
-                transition-all duration-300
-                hover:-translate-y-1
-                hover:bg-blue-400
-                hover:shadow-lg
-                hover:shadow-blue-500/30
-              "
-            >
-              Contact
-            </a>
+          <div>
+            <p className="eyebrow text-[0.68rem]">Elsewhere</p>
+            <ul className="mt-4 grid gap-2 text-sm">
+              {profile.socials.map((social) => (
+                <li key={social.label}>
+                  <a
+                    href={social.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="link-draw text-muted transition-colors hover:text-fg"
+                  >
+                    {social.label} ↗
+                  </a>
+                </li>
+              ))}
+              <li>
+                <a href={`mailto:${profile.email}`} className="link-draw text-muted transition-colors hover:text-fg">
+                  Email ↗
+                </a>
+              </li>
+            </ul>
           </div>
         </div>
 
-        {/* Divider */}
-        <div className="my-8 h-px bg-white/10" />
-
-        {/* Bottom */}
-        <div className="flex flex-col items-center justify-between gap-3 text-center sm:flex-row sm:text-left">
-          <p className="text-xs text-gray-600">
-            © {new Date().getFullYear()} Vicky. All rights reserved.
+        <div className="mt-14 flex flex-col-reverse items-start justify-between gap-4 border-t border-line py-6 text-xs text-faint sm:flex-row sm:items-center">
+          <p>
+            © {new Date().getFullYear()} {profile.name}. Built with Next.js &amp; Tailwind CSS.
           </p>
-
-          <p className="flex items-center gap-2 text-xs text-gray-600">
-            Built with
-            <span className="text-gray-400">Next.js</span>
-            <span>•</span>
-            <span className="text-gray-400">Tailwind CSS</span>
-            <span>•</span>
-            <span className="text-blue-400">♥</span>
-          </p>
+          <a href="#" className="group inline-flex items-center gap-2 transition-colors hover:text-fg">
+            Back to top
+            <span aria-hidden="true" className="transition-transform duration-500 ease-out-expo group-hover:-translate-y-1">
+              ↑
+            </span>
+          </a>
         </div>
       </div>
+
+      {/* Oversized wordmark that rises into view */}
+      <p
+        aria-hidden="true"
+        className="parallax pointer-events-none mx-auto max-w-6xl select-none bg-linear-to-b from-white/9 to-transparent bg-clip-text text-center text-[clamp(4rem,21vw,17rem)] font-semibold leading-[0.8] tracking-[-0.06em] text-transparent [--drift:2rem]"
+      >
+        {profile.shortName.toLowerCase()}
+      </p>
     </footer>
   );
 }
-
-export default Footer;

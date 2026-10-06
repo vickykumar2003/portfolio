@@ -1,18 +1,16 @@
-export const certifications = [
+export type Certification = {
+  title: string;
+  issuer: string;
+  date?: string;
+  link?: string;
+};
+
+// Source: Vicky_Kumar_Resume.pdf. Add `date` / `link` when a verifiable credential URL is available.
+export const certifications: Certification[] = [
+  { title: 'Web Development', issuer: 'Grastech Pvt. Ltd.' },
+  { title: 'C Programming', issuer: 'NPTEL' },
   {
-    title: 'React.js Certification',
-    issuer: 'Your Certification Platform',
-    date: '2025',
-    description:
-      'Completed certification covering React fundamentals, components, hooks, state management, and modern frontend development.',
-    link: '#',
-  },
-  {
-    title: 'JavaScript Certification',
-    issuer: 'Your Certification Platform',
-    date: '2025',
-    description:
-      'Demonstrated knowledge of JavaScript fundamentals, ES6+, asynchronous programming, and DOM manipulation.',
-    link: '#',
+    title: 'Hunt Till Down — Participant',
+    issuer: 'Arya College of Engineering, Jaipur',
   },
 ];

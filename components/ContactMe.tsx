@@ -1,386 +1,184 @@
 'use client';
 
-function ContactMe() {
-  return (
-    <section id="contact" className="relative overflow-hidden px-6 py-20">
-      {/* Background glows */}
-      <div className="pointer-events-none absolute left-0 top-1/4 -z-10 h-96 w-96 rounded-full bg-blue-500/10 blur-[140px]" />
+import { useState, type FormEvent } from 'react';
+import { profile } from '@/data/profile';
+import { Accent } from './SectionHeading';
 
-      <div className="pointer-events-none absolute right-0 bottom-0 -z-10 h-96 w-96 rounded-full bg-cyan-500/10 blur-[140px]" />
+const field =
+  'w-full rounded-xl border border-line bg-ink/60 px-4 py-3 text-sm text-fg placeholder:text-faint outline-none transition-[border-color,box-shadow] duration-300 focus:border-accent/60 focus:shadow-[0_0_0_4px_rgb(109_155_255/0.12)]';
+
+export default function ContactMe() {
+  const [copied, setCopied] = useState(false);
+
+  const copyEmail = async () => {
+    try {
+      await navigator.clipboard.writeText(profile.email);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    } catch {
+      window.location.href = `mailto:${profile.email}`;
+    }
+  };
+
+  // No backend: compose the message in the visitor's own email client
+  const sendMessage = (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    const data = new FormData(event.currentTarget);
+    const name = String(data.get('name') ?? '').trim();
+    const subject = String(data.get('subject') ?? '').trim() || `Hello from ${name || 'your portfolio'}`;
+    const body = `${String(data.get('message') ?? '').trim()}${name ? `\n\n— ${name}` : ''}`;
+    window.location.href = `mailto:${profile.email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+  };
+
+  return (
+    <section id="contact" className="relative overflow-hidden px-5 pb-24 pt-28 sm:px-6 sm:pt-36">
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute left-1/2 top-24 -z-10 h-[30rem] w-[60rem] -translate-x-1/2 rounded-full bg-accent/10 blur-[140px]"
+      />
 
       <div className="mx-auto max-w-6xl">
-        {/* Heading */}
-        <div className="mb-10">
-          <p className="mb-2 text-sm font-semibold tracking-[0.2em] text-blue-400">
-            CONTACT
-          </p>
+        <p data-reveal className="eyebrow flex items-center gap-3">
+          <span className="text-accent">05</span>
+          <span className="h-px w-8 bg-line" aria-hidden="true" />
+          Contact
+        </p>
 
-          <h2 className="text-3xl font-bold tracking-tight sm:text-4xl">
-            Let's Work Together
-          </h2>
+        <h2
+          data-reveal
+          className="mt-6 text-[clamp(3rem,9vw,7.5rem)] font-semibold leading-[0.95] tracking-[-0.05em] [--d:80ms]"
+        >
+          Let&apos;s build something <Accent>meaningful.</Accent>
+        </h2>
 
-          <p className="mt-3 max-w-2xl text-base leading-7 text-gray-400">
-            Have a project in mind or want to discuss an opportunity? I'd love
-            to hear from you.
-          </p>
-        </div>
+        <div className="mt-16 grid gap-12 lg:grid-cols-[1fr_1.1fr] lg:gap-16">
+          <div data-reveal className="[--d:120ms]">
+            <p className="max-w-md text-lg leading-8 text-muted">
+              Have a project in mind or an opportunity to discuss? Whether it&apos;s a role, a
+              freelance project or just a hello — I&apos;d love to hear from you.
+            </p>
 
-        {/* Contact Grid */}
-        <div className="grid gap-6 lg:grid-cols-[0.85fr_1.15fr]">
-          {/* Contact Information */}
-          <div
-            className="
-              group relative overflow-hidden rounded-3xl
-              border border-white/10
-              bg-white/[0.03]
-              p-7
-              backdrop-blur-xl
-              transition-all duration-500
-              hover:border-blue-500/30
-              hover:bg-blue-500/[0.03]
-              hover:shadow-2xl
-              hover:shadow-blue-500/10
-            "
-          >
-            {/* Glow */}
-            <div
-              className="
-                pointer-events-none absolute
-                -right-20 -top-20
-                h-40 w-40 rounded-full
-                bg-blue-500/20
-                blur-3xl
-                opacity-0
-                transition-opacity duration-500
-                group-hover:opacity-100
-              "
-            />
-
-            <div className="relative">
-              {/* Icon */}
-              <div
-                className="
-                  flex h-14 w-14 items-center justify-center
-                  rounded-2xl
-                  border border-blue-500/20
-                  bg-blue-500/10
-                  text-2xl
-                  transition-all duration-500
-                  group-hover:scale-110
-                "
-              >
-                ✉️
-              </div>
-
-              <h3 className="mt-6 text-2xl font-bold text-white">
-                Get in Touch
-              </h3>
-
-              <p className="mt-3 text-sm leading-6 text-gray-400">
-                Whether you have a project idea, a job opportunity, or simply
-                want to connect, feel free to reach out.
-              </p>
-
-              {/* Contact Details */}
-              <div className="mt-8 space-y-5">
-                {/* Email */}
-                <div className="group/item">
-                  <p className="text-xs font-semibold uppercase tracking-wider text-gray-600">
-                    Email
-                  </p>
-
-                  <a
-                    href="mailto:your@email.com"
-                    className="
-                      mt-1 block text-sm font-medium
-                      text-gray-300
-                      transition-colors duration-300
-                      hover:text-blue-400
-                    "
-                  >
-                    your@email.com
-                  </a>
-                </div>
-
-                {/* Location */}
-                <div>
-                  <p className="text-xs font-semibold uppercase tracking-wider text-gray-600">
-                    Location
-                  </p>
-
-                  <p className="mt-1 text-sm font-medium text-gray-300">
-                    Your City, India
-                  </p>
-                </div>
-
-                {/* Availability */}
-                <div>
-                  <p className="text-xs font-semibold uppercase tracking-wider text-gray-600">
-                    Available for
-                  </p>
-
-                  <div className="mt-2 flex items-center gap-2">
-                    <span className="h-2 w-2 animate-pulse rounded-full bg-green-400" />
-
-                    <p className="text-sm font-medium text-green-400">
-                      Freelance & Full-time Opportunities
-                    </p>
-                  </div>
-                </div>
-              </div>
-
-              {/* Divider */}
-              <div className="my-8 h-px bg-white/10" />
-
-              {/* Social Links */}
-              <div>
-                <p className="mb-4 text-xs font-semibold uppercase tracking-wider text-gray-600">
-                  Connect with me
-                </p>
-
-                <div className="flex flex-wrap gap-3">
-                  <a
-                    href="#"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="
-                      rounded-xl
-                      border border-white/10
-                      bg-white/[0.03]
-                      px-4 py-2.5
-                      text-sm font-medium text-gray-300
-                      transition-all duration-300
-                      hover:-translate-y-1
-                      hover:border-blue-500/30
-                      hover:bg-blue-500/10
-                      hover:text-blue-400
-                    "
-                  >
-                    GitHub ↗
-                  </a>
-
-                  <a
-                    href="#"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="
-                      rounded-xl
-                      border border-white/10
-                      bg-white/[0.03]
-                      px-4 py-2.5
-                      text-sm font-medium text-gray-300
-                      transition-all duration-300
-                      hover:-translate-y-1
-                      hover:border-blue-500/30
-                      hover:bg-blue-500/10
-                      hover:text-blue-400
-                    "
-                  >
-                    LinkedIn ↗
-                  </a>
-                </div>
+            <div className="mt-10">
+              <p className="eyebrow text-[0.68rem]">Email</p>
+              <div className="mt-3 flex flex-wrap items-center gap-3">
+                <a
+                  href={`mailto:${profile.email}`}
+                  className="link-draw break-all text-xl font-medium tracking-tight sm:text-2xl"
+                >
+                  {profile.email}
+                </a>
+                <button
+                  type="button"
+                  onClick={copyEmail}
+                  className="rounded-full border border-line px-3 py-1 text-xs text-muted transition-colors hover:border-white/20 hover:text-fg"
+                >
+                  <span aria-live="polite">{copied ? 'Copied ✓' : 'Copy'}</span>
+                </button>
               </div>
             </div>
+
+            <ul className="mt-10 border-t border-line">
+              {profile.socials.map((social) => (
+                <li key={social.label} className="border-b border-line">
+                  <a
+                    href={social.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="group flex items-center justify-between gap-4 py-5"
+                  >
+                    <span>
+                      <span className="block text-lg font-medium transition-colors group-hover:text-accent">
+                        {social.label}
+                      </span>
+                      <span className="text-sm text-faint">@{social.handle}</span>
+                    </span>
+                    <span
+                      aria-hidden="true"
+                      className="text-xl text-muted transition-transform duration-500 ease-out-expo group-hover:-translate-y-1 group-hover:translate-x-1 group-hover:text-fg"
+                    >
+                      ↗
+                    </span>
+                  </a>
+                </li>
+              ))}
+              <li className="border-b border-line">
+                <a
+                  href={profile.resume}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="group flex items-center justify-between gap-4 py-5"
+                >
+                  <span>
+                    <span className="block text-lg font-medium transition-colors group-hover:text-accent">
+                      Resume
+                    </span>
+                    <span className="text-sm text-faint">PDF</span>
+                  </span>
+                  <span
+                    aria-hidden="true"
+                    className="text-xl text-muted transition-transform duration-500 ease-out-expo group-hover:-translate-y-1 group-hover:translate-x-1 group-hover:text-fg"
+                  >
+                    ↗
+                  </span>
+                </a>
+              </li>
+            </ul>
+
+            <p className="mt-8 flex items-center gap-2.5 text-sm text-muted">
+              <span className="status-dot" aria-hidden="true" />
+              {profile.location} · open to full-time &amp; freelance opportunities
+            </p>
           </div>
 
-          {/* Contact Form */}
-          <form
-            onSubmit={(e) =>{ e.preventDefault();
-              console.log("FORM SUBMITTED");
-            }}
-            className="
-              group relative overflow-hidden rounded-3xl
-              border border-white/10
-              bg-white/[0.03]
-              p-7
-              backdrop-blur-xl
-              transition-all duration-500
-              hover:border-blue-500/30
-              hover:shadow-2xl
-              hover:shadow-blue-500/10
-            "
-          >
-            {/* Form glow */}
-            <div
-              className="
-                pointer-events-none absolute
-                -right-20 -top-20
-                h-40 w-40 rounded-full
-                bg-cyan-500/10
-                blur-3xl
-              "
-            />
-
-            <div className="relative">
-              <h3 className="text-xl font-bold text-white">Send a Message</h3>
-
-              <p className="mt-2 text-sm text-gray-500">
-                I'll get back to you as soon as possible.
+          <div data-reveal="scale" className="[--d:200ms]">
+            <form onSubmit={sendMessage} data-spotlight className="card p-6 sm:p-8">
+              <h3 className="text-xl font-medium tracking-tight">Send a message</h3>
+              <p className="mt-1.5 text-sm text-muted">
+                Opens your email app with the message ready to send.
               </p>
 
-              {/* Name + Email */}
-              <div className="mt-7 grid gap-5 sm:grid-cols-2">
+              <div className="mt-7 grid gap-5">
                 <div>
-                  <label
-                    htmlFor="name"
-                    className="mb-2 block text-sm font-medium text-gray-300"
-                  >
+                  <label htmlFor="name" className="mb-2 block text-sm text-fg/80">
                     Name
                   </label>
-
-                  <input
-                    id="name"
-                    name="name"
-                    type="text"
-                    placeholder="Your name"
-                    className="
-                      w-full rounded-xl
-                      border border-white/10
-                      bg-black/30
-                      px-4 py-3
-                      text-sm text-white
-                      placeholder:text-gray-600
-                      outline-none
-                      transition-all duration-300
-                      focus:border-blue-500/50
-                      focus:bg-blue-500/[0.03]
-                      focus:ring-2
-                      focus:ring-blue-500/10
-                    "
-                  />
+                  <input id="name" name="name" type="text" autoComplete="name" placeholder="Your name" className={field} />
                 </div>
-
                 <div>
-                  <label
-                    htmlFor="email"
-                    className="mb-2 block text-sm font-medium text-gray-300"
-                  >
-                    Email
+                  <label htmlFor="subject" className="mb-2 block text-sm text-fg/80">
+                    Subject
                   </label>
-
-                  <input
-                    id="email"
-                    name="email"
-                    type="email"
-                    placeholder="your@email.com"
-                    className="
-                      w-full rounded-xl
-                      border border-white/10
-                      bg-black/30
-                      px-4 py-3
-                      text-sm text-white
-                      placeholder:text-gray-600
-                      outline-none
-                      transition-all duration-300
-                      focus:border-blue-500/50
-                      focus:bg-blue-500/[0.03]
-                      focus:ring-2
-                      focus:ring-blue-500/10
-                    "
+                  <input id="subject" name="subject" type="text" placeholder="Project inquiry" className={field} />
+                </div>
+                <div>
+                  <label htmlFor="message" className="mb-2 block text-sm text-fg/80">
+                    Message
+                  </label>
+                  <textarea
+                    id="message"
+                    name="message"
+                    rows={5}
+                    required
+                    placeholder="Tell me about your project or role…"
+                    className={`${field} resize-none`}
                   />
                 </div>
               </div>
 
-              {/* Subject */}
-              <div className="mt-5">
-                <label
-                  htmlFor="subject"
-                  className="mb-2 block text-sm font-medium text-gray-300"
-                >
-                  Subject
-                </label>
-
-                <input
-                  id="subject"
-                  name="subject"
-                  type="text"
-                  placeholder="Project inquiry"
-                  className="
-                    w-full rounded-xl
-                    border border-white/10
-                    bg-black/30
-                    px-4 py-3
-                    text-sm text-white
-                    placeholder:text-gray-600
-                    outline-none
-                    transition-all duration-300
-                    focus:border-blue-500/50
-                    focus:bg-blue-500/[0.03]
-                    focus:ring-2
-                    focus:ring-blue-500/10
-                  "
-                />
-              </div>
-
-              {/* Message */}
-              <div className="mt-5">
-                <label
-                  htmlFor="message"
-                  className="mb-2 block text-sm font-medium text-gray-300"
-                >
-                  Message
-                </label>
-
-                <textarea
-                  id="message"
-                  name="message"
-                  rows={5}
-                  placeholder="Tell me about your project..."
-                  className="
-                    w-full resize-none rounded-xl
-                    border border-white/10
-                    bg-black/30
-                    px-4 py-3
-                    text-sm text-white
-                    placeholder:text-gray-600
-                    outline-none
-                    transition-all duration-300
-                    focus:border-blue-500/50
-                    focus:bg-blue-500/[0.03]
-                    focus:ring-2
-                    focus:ring-blue-500/10
-                  "
-                />
-              </div>
-
-              {/* Submit */}
               <button
                 type="submit"
-                className="
-                  group/button mt-6 flex w-full
-                  items-center justify-center gap-2
-                  rounded-xl
-                  bg-blue-500
-                  px-5 py-3
-                  text-sm font-semibold text-white
-                  shadow-lg shadow-blue-500/20
-                  transition-all duration-300
-                  hover:-translate-y-1
-                  hover:bg-blue-400
-                  hover:shadow-blue-500/40
-                "
+                data-magnetic
+                className="group mt-7 inline-flex w-full items-center justify-center gap-3 rounded-full bg-fg py-3.5 text-sm font-medium text-ink transition-transform duration-500 ease-out-expo sm:w-auto sm:px-8"
               >
-                Send Message
-                <span className="transition-transform duration-300 group-hover/button:translate-x-1">
+                Send message
+                <span aria-hidden="true" className="transition-transform duration-500 ease-out-expo group-hover:translate-x-1">
                   →
                 </span>
               </button>
-            </div>
-          </form>
-        </div>
-
-        {/* Bottom CTA */}
-        <div className="mt-8 flex flex-col items-center justify-center gap-2 text-center">
-          <div className="flex items-center gap-2">
-            <span className="h-2 w-2 animate-pulse rounded-full bg-green-400" />
-            <span className="text-sm text-gray-500">
-              Currently available for new opportunities
-            </span>
+            </form>
           </div>
         </div>
       </div>
     </section>
   );
 }
-
-export default ContactMe;

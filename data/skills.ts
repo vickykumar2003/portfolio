@@ -1,66 +1,86 @@
-export const skills = [
+const devicon = (path: string) =>
+  `https://cdn.jsdelivr.net/gh/devicons/devicon/icons/${path}.svg`;
+
+export type Skill = {
+  name: string;
+  logo?: string;
+  /** Monochrome dark logos that need inverting on a dark background */
+  invert?: boolean;
+};
+
+export type SkillGroup = {
+  title: string;
+  blurb: string;
+  skills: Skill[];
+};
+
+// Categories follow the grouping in Vicky_Kumar_Resume.pdf
+export const skillGroups: SkillGroup[] = [
   {
-    name: 'HTML',
-    logo: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/html5/html5-original.svg',
+    title: 'Frontend',
+    blurb: 'Responsive, component-driven interfaces.',
+    skills: [
+      { name: 'React', logo: devicon('react/react-original') },
+      { name: 'Next.js', logo: devicon('nextjs/nextjs-original'), invert: true },
+      { name: 'TypeScript', logo: devicon('typescript/typescript-original') },
+      { name: 'Redux', logo: devicon('redux/redux-original') },
+      { name: 'Context API' },
+      { name: 'Tailwind CSS', logo: devicon('tailwindcss/tailwindcss-original') },
+      { name: 'HTML', logo: devicon('html5/html5-original') },
+      { name: 'CSS', logo: devicon('css3/css3-original') },
+    ],
   },
   {
-    name: 'CSS',
-    logo: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/css3/css3-original.svg',
+    title: 'Backend',
+    blurb: 'APIs, auth and server-side logic.',
+    skills: [
+      { name: 'Node.js', logo: devicon('nodejs/nodejs-original') },
+      { name: 'Express.js', logo: devicon('express/express-original'), invert: true },
+      { name: 'RESTful APIs' },
+      { name: 'JWT Authentication' },
+    ],
   },
   {
-    name: 'JavaScript',
-    logo: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg',
+    title: 'Database',
+    blurb: 'Document and relational data.',
+    skills: [
+      { name: 'MongoDB', logo: devicon('mongodb/mongodb-original') },
+      { name: 'Mongoose' },
+      { name: 'PostgreSQL', logo: devicon('postgresql/postgresql-original') },
+    ],
   },
   {
-    name: 'TypeScript',
-    logo: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/typescript/typescript-original.svg',
+    title: 'Languages',
+    blurb: 'Foundations beyond the browser.',
+    skills: [
+      { name: 'JavaScript', logo: devicon('javascript/javascript-original') },
+      { name: 'TypeScript', logo: devicon('typescript/typescript-original') },
+      { name: 'Python', logo: devicon('python/python-original') },
+      { name: 'Java', logo: devicon('java/java-original') },
+      { name: 'C', logo: devicon('c/c-original') },
+      { name: 'C++', logo: devicon('cplusplus/cplusplus-original') },
+    ],
   },
   {
-    name: 'React',
-    logo: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg',
+    title: 'DevOps & Tools',
+    blurb: 'Shipping and collaborating.',
+    skills: [
+      { name: 'Docker', logo: devicon('docker/docker-original') },
+      { name: 'Git', logo: devicon('git/git-original') },
+      { name: 'GitHub', logo: devicon('github/github-original'), invert: true },
+      { name: 'Postman', logo: devicon('postman/postman-original') },
+      { name: 'VS Code', logo: devicon('vscode/vscode-original') },
+    ],
   },
   {
-    name: 'Next.js',
-    logo: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nextjs/nextjs-original.svg',
-  },
-  {
-    name: 'Tailwind CSS',
-    logo: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/tailwindcss/tailwindcss-original.svg',
-  },
-  {
-    name: 'Node.js',
-    logo: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/nodejs/nodejs-original.svg',
-  },
-  {
-    name: 'Express.js',
-    logo: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/express/express-original-wordmark.svg',
-  },
-  {
-    name: 'MongoDB',
-    logo: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mongodb/mongodb-original.svg',
-  },
-  {
-    name: 'PostgreSQL',
-    logo: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/postgresql/postgresql-original.svg',
-  },
-  {
-    name: 'Git',
-    logo: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/git/git-original.svg',
-  },
-  {
-    name: 'GitHub',
-    logo: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/github/github-original.svg',
-  },
-  {
-    name: 'Docker',
-    logo: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/docker/docker-original.svg',
-  },
-  {
-    name: 'Java',
-    logo: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/java/java-original.svg',
-  },
-  {
-    name: 'Python',
-    logo: 'https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg',
+    title: 'Core',
+    blurb: 'The fundamentals underneath.',
+    skills: [
+      { name: 'Data Structures' },
+      { name: 'Problem Solving' },
+      { name: 'State Management' },
+      { name: 'Networking Basics' },
+      { name: 'Cyber Security Basics' },
+    ],
   },
 ];
